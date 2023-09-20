@@ -1,7 +1,7 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
-import 'package:cw_weather/src/services/network/exceptions/http_failure.dart';
-import 'package:cw_weather/src/services/network/http_service.dart';
-import 'package:cw_weather/src/services/network/response/base_response.dart';
+import 'package:cw_weather/src/core/network/exceptions/http_failure.dart';
+import 'package:cw_weather/src/core/network/http_service.dart';
+import 'package:cw_weather/src/core/network/response/base_response.dart';
 import 'package:dio/dio.dart';
 
 class DioService implements HttpService {

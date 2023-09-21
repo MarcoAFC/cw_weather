@@ -2,6 +2,7 @@ import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/response/base_response.dart';
 import 'package:cw_weather/src/weather/data/datasources/open_weather_datasource.dart';
+import 'package:cw_weather/src/weather/models/city_model.dart';
 import 'package:cw_weather/src/weather/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,6 +15,7 @@ void main() {
     late OpenWeatherDatasource datasource;
     late Map<String, dynamic> weatherJson;
     late Map<String, dynamic> forecastJson;
+    late List<Map<String, dynamic>> geocodingJson;
     setUpAll(() {
       http = MockHttp();
       datasource = OpenWeatherDatasource(http: http);
@@ -27,8 +29,7 @@ void main() {
       ).thenAnswer(
           (invocation) async => (null, BaseResponse(data: weatherJson)));
 
-      var data =
-          await datasource.getWeather(latitude: '1', longitude: '2');
+      var data = await datasource.getWeather(latitude: '1', longitude: '2');
       expect(data.$1, null);
       expect(data.$2, isA<WeatherModel>());
       expect(data.$2!.weather, "Rain");
@@ -45,8 +46,7 @@ void main() {
             queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric'}),
       ).thenAnswer((invocation) async => (null, BaseResponse(data: {})));
 
-      var data =
-          await datasource.getWeather(latitude: '1', longitude: '2');
+      var data = await datasource.getWeather(latitude: '1', longitude: '2');
       expect(data.$1, isA<Failure>());
       expect(data.$2, null);
     });
@@ -55,7 +55,7 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/forecast',
-            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric'}),
+            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric', 'cnt': 5}),
       ).thenAnswer(
           (invocation) async => (null, BaseResponse(data: forecastJson)));
 
@@ -64,7 +64,6 @@ void main() {
       expect(data.$2, isA<List<WeatherModel>>());
       expect(data.$2!.length, 4);
       expect(data.$2!.first.id, 500);
-      
     });
 
     test('Get forecast returns failure for invalid data', () async {
@@ -78,6 +77,102 @@ void main() {
       expect(data.$1, isA<Failure>());
       expect(data.$2, null);
     });
+
+    test('Get coordinatesbyname returns a list of valid models for valid data', () async {
+      when(
+        () => http.get(
+            path: '/geo/1.0/direct',
+            queryParameters: {'q': 'natal'}),
+      ).thenAnswer(
+          (invocation) async => (null, BaseResponse(data: geocodingJson)));
+
+      var data = await datasource.getCoordinatesByName(query: 'natal');
+      expect(data.$1, null);
+      expect(data.$2, isA<List<CityModel>>());
+      expect(data.$2!.length, 5);
+      expect(data.$2!.first.latitude, -5.805398);
+    });
+
+    test('Get coordinatesbyname returns failure for invalid data', () async {
+      when(
+        () => http.get(
+            path: '/geo/1.0/direct',
+            queryParameters: {'q': 'natal'}),
+      ).thenAnswer(
+          (invocation) async => (null, BaseResponse(data: {})));
+
+      var data = await datasource.getCoordinatesByName(query: 'natal');
+      expect(data.$1, isA<Failure>());
+      expect(data.$2, null);
+    });
+
+    geocodingJson = [
+      {
+        "name": "Natal",
+        "local_names": {
+          "hy": "Նատալ",
+          "kk": "Натал",
+          "ka": "ნატალი",
+          "fa": "ناتال",
+          "ru": "Натал",
+          "ko": "나타우",
+          "ar": "ناتال",
+          "bg": "Натал",
+          "tg": "Натал",
+          "be": "Натал",
+          "sr": "Натал",
+          "en": "Natal",
+          "lt": "Natalis",
+          "th": "นาตาล",
+          "la": "Natalis",
+          "he": "נאטאל",
+          "ja": "ナタール",
+          "pt": "Natal",
+          "el": "Νατάλ",
+          "de": "Natal",
+          "pl": "Natal",
+          "ce": "Νατάλ",
+          "lv": "Natala",
+          "mr": "नाताल",
+          "zh": "纳塔尔",
+          "uk": "Натал",
+          "mk": "Натал",
+          "eo": "Natalo"
+        },
+        "lat": -5.805398,
+        "lon": -35.2080905,
+        "country": "BR",
+        "state": "Rio Grande do Norte"
+      },
+      {
+        "name": "Natal",
+        "lat": 36.9868073,
+        "lon": -79.2672444,
+        "country": "US",
+        "state": "Virginia"
+      },
+      {
+        "name": "Natal",
+        "lat": -5.060415600000001,
+        "lon": -41.87421791866078,
+        "country": "BR",
+        "state": "Piauí"
+      },
+      {
+        "name": "Natal",
+        "lat": 0.5566449,
+        "lon": 99.1134353,
+        "country": "ID",
+        "state": "North Sumatra"
+      },
+      {
+        "name": "Natal",
+        "lat": -18.9893051,
+        "lon": -49.4713826,
+        "country": "BR",
+        "state": "Minas Gerais"
+      }
+    ];
 
     weatherJson = {
       "coord": {"lon": 10.99, "lat": 44.34},

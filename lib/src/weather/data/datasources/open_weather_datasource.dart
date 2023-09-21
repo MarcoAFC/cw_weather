@@ -1,5 +1,7 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
+import 'package:cw_weather/src/weather/models/city_model.dart';
+import 'package:cw_weather/src/weather/view_model/entities/city.dart';
 import 'package:cw_weather/src/weather/view_model/entities/weather.dart';
 import 'package:cw_weather/src/weather/models/weather_model.dart';
 
@@ -23,8 +25,20 @@ class OpenWeatherDatasource{
     } 
   }
 
-  Future<dynamic> getCoordinatesByName({required String query})async {
-    return await http.get(path: '/geo/1.0/direct', queryParameters: {'q': query});
+  Future<(Failure?, List<City>?)> getCoordinatesByName({required String query})async {
+    try{
+      var response = await http.get(path: '/geo/1.0/direct', queryParameters: {'q': query});
+      if(response.$1 != null){
+        // check if an error has ocurred
+        return (response.$1, null);
+      }
+      else{
+        var list = (response.$2!.data as List).map((e) => CityModel.fromMap(e as Map<String, dynamic>)).toList();
+        return (null, list);
+      }
+    } catch(e){
+      return (Failure.generic, null);
+    } 
   }
 
   Future<(Failure?, List<Weather>?)> getForecast({required String latitude, required String longitude})async{

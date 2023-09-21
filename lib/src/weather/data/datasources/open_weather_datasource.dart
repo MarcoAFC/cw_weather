@@ -1,6 +1,6 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
-import 'package:cw_weather/src/weather/entities/weather.dart';
+import 'package:cw_weather/src/weather/view_model/entities/weather.dart';
 import 'package:cw_weather/src/weather/models/weather_model.dart';
 
 class OpenWeatherDatasource{

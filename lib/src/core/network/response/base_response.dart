@@ -1,6 +1,6 @@
 class BaseResponse{
   final int? statusCode;
-  final Object data;
+  final dynamic data;
 
   BaseResponse({this.statusCode, required this.data});
 }

@@ -27,11 +27,7 @@ class DioService implements HttpService {
         null
       );
     } catch (e) {
-      return (
-        Failure(
-            message: "An internal error has ocurred, please try again later."),
-        null
-      );
+      return (Failure.generic, null);
     }
   }
 }

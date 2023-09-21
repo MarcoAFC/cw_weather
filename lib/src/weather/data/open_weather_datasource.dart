@@ -29,7 +29,7 @@ class OpenWeatherDatasource{
 
   Future<(Failure?, List<Weather>?)> getForecast({required String latitude, required String longitude})async{
     try{
-      var response = await http.get(path: '/data/2.5/forecast', queryParameters: {'lat': latitude, 'lon': longitude, 'units': 'metric'});
+      var response = await http.get(path: '/data/2.5/forecast', queryParameters: {'lat': latitude, 'lon': longitude, 'units': 'metric', 'cnt': 5});
       if(response.$1 != null){
         // check if an error has ocurred
         return (response.$1, null);

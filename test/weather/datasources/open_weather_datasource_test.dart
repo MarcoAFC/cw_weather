@@ -1,7 +1,7 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/response/base_response.dart';
-import 'package:cw_weather/src/weather/data/open_weather_datasource.dart';
+import 'package:cw_weather/src/weather/data/datasources/open_weather_datasource.dart';
 import 'package:cw_weather/src/weather/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

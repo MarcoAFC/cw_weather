@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:cw_weather/src/weather/entities/current_weather.dart';
+import 'package:cw_weather/src/weather/entities/weather.dart';
 
-class CurrentWeatherModel extends CurrentWeather {
-  CurrentWeatherModel(
+class WeatherModel extends Weather {
+  WeatherModel(
       {required super.id,
       required super.weather,
       required super.description,
       required super.icon,
       required super.temperature});
 
-  factory CurrentWeatherModel.fromMap(Map<String, dynamic> map) {
-    return CurrentWeatherModel(
+  factory WeatherModel.fromMap(Map<String, dynamic> map) {
+    return WeatherModel(
       id: (map['weather'] as List).first['id'] as int,
       weather: (map['weather'] as List).first['main'] as String,
       description:(map['weather'] as List).first['description'] as String,
@@ -20,6 +20,6 @@ class CurrentWeatherModel extends CurrentWeather {
     );
   }
 
-  factory CurrentWeatherModel.fromJson(String source) =>
-      CurrentWeatherModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WeatherModel.fromJson(String source) =>
+      WeatherModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

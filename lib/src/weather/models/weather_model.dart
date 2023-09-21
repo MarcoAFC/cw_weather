@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:cw_weather/src/weather/entities/weather.dart';
+import 'package:cw_weather/src/weather/view_model/entities/weather.dart';
+
 
 class WeatherModel extends Weather {
   WeatherModel(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cw_weather/src/weather/view_model/entities/city.dart';
+import 'package:cw_weather/src/weather_module/entities/city.dart';
 
 class CityModel extends City {
   CityModel(

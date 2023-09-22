@@ -1,9 +1,9 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/response/base_response.dart';
-import 'package:cw_weather/src/weather/data/datasources/open_weather_datasource.dart';
-import 'package:cw_weather/src/weather/models/city_model.dart';
-import 'package:cw_weather/src/weather/models/weather_model.dart';
+import 'package:cw_weather/src/weather_module/data/datasources/open_weather_datasource.dart';
+import 'package:cw_weather/src/weather_module/data/models/city_model.dart';
+import 'package:cw_weather/src/weather_module/data/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -25,11 +25,11 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/weather',
-            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric'}),
+            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric'}),
       ).thenAnswer(
           (invocation) async => (null, BaseResponse(data: weatherJson)));
 
-      var data = await datasource.getWeather(latitude: '1', longitude: '2');
+      var data = await datasource.getWeather(latitude: 1, longitude: 2);
       expect(data.$1, null);
       expect(data.$2, isA<WeatherModel>());
       expect(data.$2!.weather, "Rain");
@@ -43,10 +43,10 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/weather',
-            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric'}),
+            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric'}),
       ).thenAnswer((invocation) async => (null, BaseResponse(data: {})));
 
-      var data = await datasource.getWeather(latitude: '1', longitude: '2');
+      var data = await datasource.getWeather(latitude: 1, longitude: 2);
       expect(data.$1, isA<Failure>());
       expect(data.$2, null);
     });
@@ -55,11 +55,11 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/forecast',
-            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric', 'cnt': 5}),
+            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric', 'cnt': 5}),
       ).thenAnswer(
           (invocation) async => (null, BaseResponse(data: forecastJson)));
 
-      var data = await datasource.getForecast(latitude: '1', longitude: '2');
+      var data = await datasource.getForecast(latitude: 1, longitude: 2);
       expect(data.$1, null);
       expect(data.$2, isA<List<WeatherModel>>());
       expect(data.$2!.length, 4);
@@ -70,10 +70,10 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/forecast',
-            queryParameters: {'lat': '1', 'lon': '2', 'units': 'metric'}),
+            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric'}),
       ).thenAnswer((invocation) async => (null, BaseResponse(data: {})));
 
-      var data = await datasource.getForecast(latitude: '1', longitude: '2');
+      var data = await datasource.getForecast(latitude: 1, longitude: 2);
       expect(data.$1, isA<Failure>());
       expect(data.$2, null);
     });

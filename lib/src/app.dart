@@ -1,3 +1,5 @@
+import 'package:cw_weather/src/weather_module/pages/cities/view/cities_page.dart';
+import 'package:cw_weather/src/weather_module/pages/weather/view/weather_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -5,6 +7,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return MaterialApp(
+      home: const CitiesPage(),
+      color: Colors.purple,
+      routes: {
+        '/' : (context) => const CitiesPage(),
+        '/forecast/:id' : (context) => const WeatherPage(),
+
+      },
+    );
   }
 }

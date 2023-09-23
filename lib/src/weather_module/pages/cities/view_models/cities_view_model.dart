@@ -6,13 +6,11 @@ import 'package:cw_weather/src/weather_module/entities/city.dart';
 
 class CitiesViewModel {
   final OpenWeatherDatasource datasource;
-  final ValueNotifier<List<City>?> citiesNotifier;
-  final ValueNotifier<Failure?> errorNotifier;
+  final ValueNotifier<List<City>?> citiesNotifier = ValueNotifier(null);
+  final ValueNotifier<Failure?> errorNotifier = ValueNotifier(null);
 
   CitiesViewModel({
     required this.datasource,
-    required this.citiesNotifier,
-    required this.errorNotifier,
   });
 
 

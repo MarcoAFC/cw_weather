@@ -16,7 +16,7 @@ class CityModel extends City {
       longitude: map['lon'] as double,
       name: map['name'] as String,
       countryCode: map['country'] as String,
-      state: map['state'] as String,
+      state: map['state'] as String?,
     );
   }
 

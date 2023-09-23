@@ -7,16 +7,13 @@ class FailureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 24.0,),
-          const SizedBox(height: 16.0,),
-          TextBody(text: text,)
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.error_outline, size: 24.0,),
+        const SizedBox(height: 16.0,),
+        TextBody(text: text,)
+      ],
     );
   }
 }

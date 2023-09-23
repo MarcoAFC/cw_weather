@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SearchField extends StatelessWidget {
+class SearchFieldWidget extends StatelessWidget {
 
   final TextEditingController controller = TextEditingController();
   final Function(String) onSubmitted;
-  SearchField({super.key, required this.onSubmitted});
+  SearchFieldWidget({super.key, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {

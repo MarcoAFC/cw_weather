@@ -16,6 +16,7 @@ class CityCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 10,
+      borderRadius: BorderRadius.circular(16.0),
       child: InkWell(
         onTap: () {
           Navigator.of(context).pushNamed('/weather', arguments: city);
@@ -23,7 +24,7 @@ class CityCardWidget extends StatelessWidget {
         child: Container(
           height: 160,
           width: MediaQuery.of(context).size.width * 0.4,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.0)),
           child: ListTile(
             title: TextTitle(text: city.name),
             subtitle:

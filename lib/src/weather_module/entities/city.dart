@@ -3,7 +3,7 @@ class City {
   final double longitude;
   final String name;
   final String countryCode;
-  final String state;
+  final String? state;
 
   City(
       {required this.latitude,

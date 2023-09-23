@@ -1,17 +1,17 @@
+import 'package:cw_weather/src/app_dependencies.dart';
 import 'package:cw_weather/src/weather_module/pages/cities/view/cities_page.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view/weather_page.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
-
+  App({super.key});
+  final DependencyHandler handler = DependencyHandler();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const CitiesPage(),
       color: Colors.purple,
       routes: {
-        '/' : (context) => const CitiesPage(),
+        '/' : (context) => CitiesPage(viewModel: handler.get(),),
         '/forecast/:id' : (context) => const WeatherPage(),
 
       },

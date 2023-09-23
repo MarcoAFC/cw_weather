@@ -16,13 +16,19 @@ class CityCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 10,
-      child: Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
-        child: ListTile(
-          title: TextTitle(text: city.name),
-          subtitle: TextSubtitle(text: city.state),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed('/weather', arguments: city);
+        },
+        child: Container(
+          height: 160,
+          width: MediaQuery.of(context).size.width * 0.4,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
+          child: ListTile(
+            title: TextTitle(text: city.name),
+            subtitle:
+                city.state != null ? TextSubtitle(text: city.state!) : null,
+          ),
         ),
       ),
     );

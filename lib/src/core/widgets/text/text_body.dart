@@ -10,7 +10,7 @@ class TextBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis),
+      style: const TextStyle(fontSize: 16, overflow: TextOverflow.visible),
     );
   }
 }

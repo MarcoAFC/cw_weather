@@ -4,16 +4,16 @@ import 'package:cw_weather/src/core/widgets/text/text_title.dart';
 import 'package:cw_weather/src/weather_module/entities/weather.dart';
 import 'package:flutter/material.dart';
 
-class WeatherCard extends StatelessWidget {
+class WeatherCardWidget extends StatelessWidget {
   final Weather weather;
   final String name;
 
-  const WeatherCard({super.key, required this.weather, required this.name});
+  const WeatherCardWidget({super.key, required this.weather, required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 20,
+      elevation: 10,
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.5,
@@ -24,8 +24,8 @@ class WeatherCard extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: <Color>[
-              Colors.white, // yellow sun
-              Color(0xFF0099FF), // blue sky
+              Colors.white,
+              Color(0xFF0099FF),
             ],
             stops: <double>[-0.5, 0.5],
           ),
@@ -53,11 +53,8 @@ class WeatherCard extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: const Alignment(1.4, 0.0),
-              child: Image.network(
-                  "https://openweathermap.org/img/wn/${weather.icon}@4x.png"),
-            ),
+            Image.network(
+                "https://openweathermap.org/img/wn/${weather.icon}@4x.png"),
           ],
         ),
       ),

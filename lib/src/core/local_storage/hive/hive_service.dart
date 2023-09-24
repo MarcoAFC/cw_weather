@@ -1,27 +1,33 @@
+import 'dart:async';
+
 import 'package:cw_weather/src/core/local_storage/local_storage_service.dart';
 import 'package:hive/hive.dart';
 
 class HiveService implements LocalStorageService {
-  late final Box _box;
+  late Box _box;
+  final Completer initialized = Completer();
+  HiveService() {
+    init();
+  }
 
   Future<void> init() async {
+    await _openBox();
     if (_box.isEmpty) {
       for (var element in initialData) {
         await write(key: element.key, value: element.value);
       }
     }
+    initialized.complete();
   }
 
   @override
   Future<Map<String, dynamic>> readKey({required String key}) async {
-    await _openBox();
     return _box.get(key);
   }
 
   @override
   Future<void> write(
       {required String key, required Map<String, dynamic> value}) async {
-    await _openBox();
     await _box.put(key, value);
   }
 
@@ -32,18 +38,19 @@ class HiveService implements LocalStorageService {
   }
 
   @override
-  Future<List<MapEntry>> getAll() async {
-    await _openBox();
-    return _box.toMap().entries.toList();
+  Future<List<dynamic>> getAll() async {
+    await initialized.future;
+    final result = _box.values.toList();
+    return result;
   }
 
   var initialData = [
-    const MapEntry("Natal,BR", {
-      "name": "Natal",
-      "lat": -5.805398,
-      "lon": -35.2080905,
+    const MapEntry("São Paulo,BR", {
+      "name": "São Paulo",
+      "lat": -23.5506507,
+      "lon": -46.6333824,
       "country": "BR",
-      "state": "Rio Grande do Norte"
+      "state": "São Paulo"
     }),
     const MapEntry("Silverstone,GB", {
       "name": "Silverstone",

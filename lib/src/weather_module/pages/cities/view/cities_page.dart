@@ -51,7 +51,7 @@ class _CitiesPageState extends State<CitiesPage> {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: AnimatedBuilder(
             animation: Listenable.merge([
               widget.viewModel.citiesNotifier,
@@ -72,7 +72,7 @@ class _CitiesPageState extends State<CitiesPage> {
               } else if (cities.isEmpty) {
                 return const NoDataWidget();
               } else if (cities.isNotEmpty) {
-                return CityListWidget(cities: cities);
+                return SingleChildScrollView(child: CityListWidget(cities: cities));
               }
               return const SizedBox.shrink();
             }),

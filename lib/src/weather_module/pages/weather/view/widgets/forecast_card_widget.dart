@@ -45,7 +45,11 @@ class ForecastCardWidget extends StatelessWidget {
               ),
             ),
             Image.network(
-                "https://openweathermap.org/img/wn/${weather.icon}.png"),
+              "https://openweathermap.org/img/wn/${weather.icon}.png",
+              errorBuilder: (context, _, __) {
+                return const SizedBox.shrink();
+              },
+            ),
           ],
         ),
       ),

@@ -8,7 +8,8 @@ class WeatherCardWidget extends StatelessWidget {
   final Weather weather;
   final String name;
 
-  const WeatherCardWidget({super.key, required this.weather, required this.name});
+  const WeatherCardWidget(
+      {super.key, required this.weather, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,11 @@ class WeatherCardWidget extends StatelessWidget {
               ),
             ),
             Image.network(
-                "https://openweathermap.org/img/wn/${weather.icon}@4x.png"),
+              "https://openweathermap.org/img/wn/${weather.icon}@4x.png",
+              errorBuilder: (context, _, __) {
+                return const SizedBox.shrink();
+              },
+            )
           ],
         ),
       ),

@@ -9,7 +9,8 @@ class WeatherModel extends Weather {
       required super.weather,
       required super.description,
       required super.icon,
-      required super.temperature});
+      required super.temperature,
+      required super.dt});
 
   factory WeatherModel.fromMap(Map<String, dynamic> map) {
     return WeatherModel(
@@ -17,7 +18,8 @@ class WeatherModel extends Weather {
       weather: (map['weather'] as List).first['main'] as String,
       description:(map['weather'] as List).first['description'] as String,
       icon:(map['weather'] as List).first['icon'] as String,
-      temperature: map['main']['temp'] as double,
+      temperature: map['main']['temp'],
+      dt: DateTime.fromMillisecondsSinceEpoch((map['dt'] as int)*1000)
     );
   }
 

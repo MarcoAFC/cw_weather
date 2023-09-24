@@ -30,7 +30,9 @@ class OpenWeatherLocalDatasource {
   Future<(Failure?, Weather?)> getWeather({required String cityId}) async {
     try {
       var data = await storage.readKey(key: cityId);
-
+      if(data?['weather'] == null){
+        return (Failure.noDataAndConnectivity, null);
+      }
       var list = WeatherModel.fromMap(data?['weather']);
       return (null, list);
     } catch (e) {
@@ -42,6 +44,9 @@ class OpenWeatherLocalDatasource {
       {required String cityId}) async {
     try {
       var data = await storage.readKey(key: cityId);
+      if(data?['forecast'] == null){
+        return (Failure.noDataAndConnectivity, null);
+      }
       List<WeatherModel> list = data!['forecast']
           .map<WeatherModel>((e) => WeatherModel.fromMap(e))
           .toList();

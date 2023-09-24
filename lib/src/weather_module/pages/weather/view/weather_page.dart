@@ -36,54 +36,56 @@ class _WeatherPageState extends State<WeatherPage> {
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              AnimatedBuilder(
-                  animation: Listenable.merge([
-                    widget.weatherViewModel.weatherNotifier,
-                    widget.weatherViewModel.errorNotifier
-                  ]),
-                  builder: (context, _) {
-                    var weather = widget.weatherViewModel.weatherNotifier.value;
-                    var error = widget.weatherViewModel.errorNotifier.value;
-                    if (error != null) {
-                      return Center(
-                        child: FailureWidget(text: error.message),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AnimatedBuilder(
+                    animation: Listenable.merge([
+                      widget.weatherViewModel.weatherNotifier,
+                      widget.weatherViewModel.errorNotifier
+                    ]),
+                    builder: (context, _) {
+                      var weather = widget.weatherViewModel.weatherNotifier.value;
+                      var error = widget.weatherViewModel.errorNotifier.value;
+                      if (error != null) {
+                        return Center(
+                          child: FailureWidget(text: error.message),
+                        );
+                      } else if (weather == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return WeatherCardWidget(
+                        weather: weather,
+                        name: city.name,
                       );
-                    } else if (weather == null) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return WeatherCardWidget(
-                      weather: weather,
-                      name: city.name,
-                    );
-                  }),
-              const SizedBox(
-                height: 16.0,
-              ),
-              AnimatedBuilder(
-                  animation: Listenable.merge([
-                    widget.forecastViewModel.forecastNotifier,
-                    widget.forecastViewModel.errorNotifier
-                  ]),
-                  builder: (context, _) {
-                    var weather =
-                        widget.forecastViewModel.forecastNotifier.value;
-                    var error = widget.forecastViewModel.errorNotifier.value;
-                    if (error != null) {
-                      return Center(
-                        child: FailureWidget(text: error.message),
-                      );
-                    } else if (weather == null) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return ForecastCarouselWidget(items: weather);
-                  }),
-            ],
+                    }),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                AnimatedBuilder(
+                    animation: Listenable.merge([
+                      widget.forecastViewModel.forecastNotifier,
+                      widget.forecastViewModel.errorNotifier
+                    ]),
+                    builder: (context, _) {
+                      var weather =
+                          widget.forecastViewModel.forecastNotifier.value;
+                      var error = widget.forecastViewModel.errorNotifier.value;
+                      if (error != null) {
+                        return Center(
+                          child: FailureWidget(text: error.message),
+                        );
+                      } else if (weather == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ForecastCarouselWidget(items: weather);
+                    }),
+              ],
+            ),
           )),
     );
   }

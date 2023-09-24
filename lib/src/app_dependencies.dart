@@ -1,10 +1,14 @@
+import 'package:cw_weather/src/core/connectivity/connectivity_service.dart';
+import 'package:cw_weather/src/core/connectivity/connectivity_service_impl.dart';
 import 'package:cw_weather/src/core/local_storage/hive/hive_service.dart';
 import 'package:cw_weather/src/core/local_storage/local_storage_service.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/impl/dio_service.dart';
 import 'package:cw_weather/src/weather_module/data/datasources/open_weather_local_datasource.dart';
 import 'package:cw_weather/src/weather_module/data/datasources/open_weather_remote_datasource.dart';
+import 'package:cw_weather/src/weather_module/data/repositories/connectivity_repository_impl.dart';
 import 'package:cw_weather/src/weather_module/data/repositories/open_weather_repository_impl.dart';
+import 'package:cw_weather/src/weather_module/domain/repositories/connectivity_repository.dart';
 import 'package:cw_weather/src/weather_module/domain/repositories/open_weather_repository.dart';
 import 'package:cw_weather/src/weather_module/pages/cities/view_models/cities_view_model.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view_models/forecast_view_model.dart';
@@ -28,12 +32,14 @@ class DependencyHandler{
   void registerDependencies(){
     di.registerLazySingleton<HttpService>(() => DioService());
     di.registerLazySingleton<LocalStorageService>(() => HiveService());
+    di.registerLazySingleton<ConnectivityService>(() => ConnectivityServiceImpl());
     di.registerLazySingleton<OpenWeatherRemoteDatasource>(() => OpenWeatherRemoteDatasource(http: di.get()));
     di.registerLazySingleton<OpenWeatherLocalDatasource>(() => OpenWeatherLocalDatasource(storage: di.get()));
     di.registerLazySingleton<OpenWeatherRepository>(() => OpenWeatherRepositoryImpl(local: di.get(), remote: di.get()));
-    di.registerLazySingleton<CitiesViewModel>(() => CitiesViewModel(repository: di.get()));
-    di.registerLazySingleton<WeatherViewModel>(() => WeatherViewModel(repository: di.get()));
-    di.registerLazySingleton<ForecastViewModel>(() => ForecastViewModel(repository: di.get()));
+    di.registerLazySingleton<ConnectivityRepository>(() => ConnectivityRepositoryImpl(service: di.get()));
+    di.registerLazySingleton<CitiesViewModel>(() => CitiesViewModel(repository: di.get(), connectivity: di.get()));
+    di.registerLazySingleton<WeatherViewModel>(() => WeatherViewModel(repository: di.get(), connectivity: di.get()));
+    di.registerLazySingleton<ForecastViewModel>(() => ForecastViewModel(repository: di.get(), connectivity: di.get()));
   }
 
   T get<T extends Object>(){

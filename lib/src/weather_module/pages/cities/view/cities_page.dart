@@ -52,30 +52,37 @@ class _CitiesPageState extends State<CitiesPage> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: AnimatedBuilder(
-            animation: Listenable.merge([
-              widget.viewModel.citiesNotifier,
-              widget.viewModel.errorNotifier
-            ]),
-            builder: (context, _) {
-              var cities = widget.viewModel.citiesNotifier.value;
-              var error = widget.viewModel.errorNotifier.value;
+        child: RefreshIndicator(
+          onRefresh: () async {
+            widget.viewModel.onSearch(null, value: false);
+          },
+          child: AnimatedBuilder(
+              animation: Listenable.merge([
+                widget.viewModel.citiesNotifier,
+                widget.viewModel.errorNotifier
+              ]),
+              builder: (context, _) {
+                var cities = widget.viewModel.citiesNotifier.value;
+                var error = widget.viewModel.errorNotifier.value;
 
-              if (error != null) {
-                return Center(
-                  child: FailureWidget(text: error.message),
-                );
-              } else if (cities == null) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (cities.isEmpty) {
-                return const NoDataWidget();
-              } else if (cities.isNotEmpty) {
-                return SingleChildScrollView(child: CityListWidget(cities: cities));
-              }
-              return const SizedBox.shrink();
-            }),
+                if (error != null) {
+                  return Center(
+                    child: FailureWidget(text: error.message),
+                  );
+                } else if (cities == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (cities.isEmpty) {
+                  return const NoDataWidget();
+                } else if (cities.isNotEmpty) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                      child: CityListWidget(cities: cities));
+                }
+                return const SizedBox.shrink();
+              }),
+        ),
       ),
     );
   }

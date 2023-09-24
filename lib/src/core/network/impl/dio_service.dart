@@ -3,11 +3,12 @@ import 'package:cw_weather/src/core/network/exceptions/http_failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/response/base_response.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioService implements HttpService {
   final Dio _dio = Dio(BaseOptions(
-      baseUrl: 'https://api.openweathermap.org',
-      queryParameters: {'appid': '0013ee27aafdb175b28331a5da0eef78'}));
+      baseUrl: dotenv.env['BASE_URL']!,
+      queryParameters: {'appid': dotenv.env['API_KEY']}));
 
   @override
   Future<(Failure?, BaseResponse?)> get(

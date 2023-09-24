@@ -22,8 +22,13 @@ class CitiesPage extends StatefulWidget {
 class _CitiesPageState extends State<CitiesPage> {
   @override
   void initState() {
-
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    widget.viewModel.onSearch(null, value: false);
+    super.didChangeDependencies();
   }
 
   @override

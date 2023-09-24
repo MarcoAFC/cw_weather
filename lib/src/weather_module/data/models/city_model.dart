@@ -20,6 +20,16 @@ class CityModel extends City {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'lat': latitude,
+      'lon': longitude,
+      'name': name,
+      'country': countryCode,
+      'state': state,
+    };
+  }
+
   factory CityModel.fromJson(String source) =>
       CityModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

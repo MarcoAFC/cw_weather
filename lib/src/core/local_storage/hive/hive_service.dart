@@ -21,14 +21,21 @@ class HiveService implements LocalStorageService {
   }
 
   @override
-  Future<Map<String, dynamic>> readKey({required String key}) async {
-    return _box.get(key);
+  Future<Map<dynamic, dynamic>?> readKey({required String key}) async {
+    return await _box.get(key);
   }
 
   @override
   Future<void> write(
       {required String key, required Map<String, dynamic> value}) async {
-    await _box.put(key, value);
+    var currentValue = await readKey(key: key);
+    if (currentValue != null) {
+      // if data already exists, update it instead of overwriting
+      currentValue.addAll(value);
+      await _box.put(key, currentValue);
+    } else {
+      await _box.put(key, value);
+    }
   }
 
   Future<void> _openBox() async {

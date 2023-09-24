@@ -7,4 +7,9 @@ class Failure implements Exception {
     return const Failure(
         message: "An internal error has ocurred, please try again later.");
   }
+
+  static Failure get noDataAndConnectivity {
+    return const Failure(
+        message: "No data has been stored and no connection is available, please connect and try again.");
+  }
 }

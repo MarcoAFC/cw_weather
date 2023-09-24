@@ -23,11 +23,15 @@ class OpenWeatherLocalDatasource {
     }
   }
 
+  Future<void> storeData({required Map<String, dynamic> map, required String name})async{
+    await storage.write(key: name, value: map);
+  }
+
   Future<(Failure?, Weather?)> getWeather({required String cityId}) async {
     try {
       var data = await storage.readKey(key: cityId);
 
-      var list = WeatherModel.fromMap(data['weather']);
+      var list = WeatherModel.fromMap(data?['weather']);
       return (null, list);
     } catch (e) {
       return (Failure.generic, null);
@@ -38,11 +42,10 @@ class OpenWeatherLocalDatasource {
       {required String cityId}) async {
     try {
       var data = await storage.readKey(key: cityId);
-
-      var list = data['forecast']
-          .map((e) => CityModel.fromMap(e.value as Map<String, dynamic>))
+      List<WeatherModel> list = data!['forecast']
+          .map<WeatherModel>((e) => WeatherModel.fromMap(e))
           .toList();
-      return list;
+      return (null, list);
     } catch (e) {
       return (Failure.generic, null);
     }

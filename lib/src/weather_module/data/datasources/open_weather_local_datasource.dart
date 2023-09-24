@@ -15,7 +15,7 @@ class OpenWeatherLocalDatasource {
       var data = await storage.getAll();
 
       var list = data
-          .map((e) => CityModel.fromMap(e.value as Map<String, dynamic>))
+          .map((e) => CityModel.fromMap(e))
           .toList();
       return (null, list);
     } catch (e) {

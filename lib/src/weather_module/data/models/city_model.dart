@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cw_weather/src/weather_module/entities/city.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/city.dart';
 
 class CityModel extends City {
   CityModel(
@@ -10,7 +10,7 @@ class CityModel extends City {
       required super.countryCode,
       required super.state});
 
-  factory CityModel.fromMap(Map<String, dynamic> map) {
+  factory CityModel.fromMap(Map<dynamic, dynamic> map) {
     return CityModel(
       latitude: map['lat'] as double,
       longitude: map['lon'] as double,

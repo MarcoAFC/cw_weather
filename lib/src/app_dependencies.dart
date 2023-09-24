@@ -2,6 +2,7 @@ import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/impl/dio_service.dart';
 import 'package:cw_weather/src/weather_module/data/datasources/open_weather_datasource.dart';
 import 'package:cw_weather/src/weather_module/pages/cities/view_models/cities_view_model.dart';
+import 'package:cw_weather/src/weather_module/pages/weather/view_models/forecast_view_model.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view_models/weather_view_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,6 +25,7 @@ class DependencyHandler{
     di.registerLazySingleton<OpenWeatherDatasource>(() => OpenWeatherDatasource(http: di.get()));
     di.registerLazySingleton<CitiesViewModel>(() => CitiesViewModel(datasource: di.get()));
     di.registerLazySingleton<WeatherViewModel>(() => WeatherViewModel(datasource: di.get()));
+    di.registerLazySingleton<ForecastViewModel>(() => ForecastViewModel(datasource: di.get()));
   }
 
   T get<T extends Object>(){

@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       color: Colors.purple,
       routes: {
         '/' : (context) => CitiesPage(viewModel: handler.get(),),
-        '/weather' : (context) => WeatherPage(viewModel: handler.get(),),
+        '/weather' : (context) => WeatherPage(weatherViewModel: handler.get(), forecastViewModel: handler.get(),),
       },
     );
   }

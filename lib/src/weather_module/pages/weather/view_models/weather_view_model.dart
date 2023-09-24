@@ -13,13 +13,15 @@ class WeatherViewModel{
 
 
   Future<void> fetchData(City city) async {
+    weatherNotifier.value = null;
+    errorNotifier.value = null;
     var data = await datasource.getWeather(latitude: city.latitude, longitude: city.longitude);
 
     if(data.$2 != null){
       weatherNotifier.value = data.$2!;
     }
     else if(data.$1 != null){
-      //TODO: handle error
+      errorNotifier.value = data.$1;
     }
   }
 }

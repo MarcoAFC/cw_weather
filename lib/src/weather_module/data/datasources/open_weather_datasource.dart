@@ -43,13 +43,19 @@ class OpenWeatherDatasource{
 
   Future<(Failure?, List<Weather>?)> getForecast({required double latitude, required double longitude})async{
     try{
-      var response = await http.get(path: '/data/2.5/forecast', queryParameters: {'lat': latitude, 'lon': longitude, 'units': 'metric', 'cnt': 5});
+      var response = await http.get(path: '/data/2.5/forecast', queryParameters: {'lat': latitude, 'lon': longitude, 'units': 'metric', 'cnt': 35});
       if(response.$1 != null){
         // check if an error has ocurred
         return (response.$1, null);
       }
       else{
-        var list = (response.$2!.data['list'] as List).map((e) => WeatherModel.fromMap(e as Map<String, dynamic>)).toList();
+        List<WeatherModel> list = [
+
+        ];
+        var data = (response.$2!.data['list'] as List);
+        for(int i = 0; i < data.length; i = i+7){
+          list.add(WeatherModel.fromMap(data[i]));
+        }
         return (null, list);
       }
     } catch(e){

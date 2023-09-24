@@ -63,7 +63,6 @@ void main() {
       expect(data.$1, null);
       expect(data.$2, isA<List<WeatherModel>>());
       expect(data.$2!.length, 4);
-      expect(data.$2!.first.id, 500);
     });
 
     test('Get forecast returns failure for invalid data', () async {

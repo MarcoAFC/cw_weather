@@ -1,7 +1,7 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/core/network/response/base_response.dart';
-import 'package:cw_weather/src/weather_module/data/datasources/open_weather_datasource.dart';
+import 'package:cw_weather/src/weather_module/data/datasources/open_weather_remote_datasource.dart';
 import 'package:cw_weather/src/weather_module/data/models/city_model.dart';
 import 'package:cw_weather/src/weather_module/data/models/weather_model.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,13 +12,13 @@ class MockHttp extends Mock implements HttpService {}
 void main() {
   group('Open weather datasource', () {
     late HttpService http;
-    late OpenWeatherDatasource datasource;
+    late OpenWeatherRemoteDatasource datasource;
     late Map<String, dynamic> weatherJson;
     late Map<String, dynamic> forecastJson;
     late List<Map<String, dynamic>> geocodingJson;
     setUpAll(() {
       http = MockHttp();
-      datasource = OpenWeatherDatasource(http: http);
+      datasource = OpenWeatherRemoteDatasource(http: http);
     });
 
     test('Get current weather returns a valid model for valid data', () async {

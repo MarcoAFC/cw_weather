@@ -1,4 +1,4 @@
-import 'package:cw_weather/src/weather_module/entities/weather.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/weather.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view/widgets/forecast_card_widget.dart';
 import 'package:flutter/material.dart';
 

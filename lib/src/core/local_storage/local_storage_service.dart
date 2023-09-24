@@ -1,0 +1,6 @@
+abstract interface class LocalStorageService {
+  Future<Map<dynamic, dynamic>?> readKey({required String key});
+  Future<void> write(
+      {required String key, required Map<String, dynamic> value});
+  Future<List<dynamic>> getAll();
+}

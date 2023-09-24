@@ -1,23 +1,23 @@
+import 'package:cw_weather/src/weather_module/domain/repositories/open_weather_repository.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cw_weather/src/core/exceptions/failure.dart';
-import 'package:cw_weather/src/weather_module/data/datasources/open_weather_datasource.dart';
-import 'package:cw_weather/src/weather_module/entities/city.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/city.dart';
 
 class CitiesViewModel {
-  final OpenWeatherDatasource datasource;
+  final OpenWeatherRepository repository;
   final ValueNotifier<List<City>?> citiesNotifier = ValueNotifier(null);
   final ValueNotifier<Failure?> errorNotifier = ValueNotifier(null);
   final ValueNotifier<bool> showSearchBar = ValueNotifier(false);
 
   CitiesViewModel({
-    required this.datasource,
+    required this.repository,
   });
 
-  Future<void> _fetchData(String query) async {
+  Future<void> _fetchData(String? query) async {
     citiesNotifier.value = null;
     errorNotifier.value = null;
-    var data = await datasource.getCoordinatesByName(query: query);
+    var data = await repository.getCities(query: query, hasConnection: true);
 
     if (data.$2 != null) {
       citiesNotifier.value = data.$2;
@@ -26,21 +26,18 @@ class CitiesViewModel {
     }
   }
 
-  void triggerSearchBar() {
-    showSearchBar.value = !showSearchBar.value;
-  }
-
-  void submitSearch(String query) {
-    triggerSearchBar();
-    _fetchData(query);
-  }
-
-  void onSearch(String query) {
-    if (query.isNotEmpty) {
-      _fetchData(query);
+  void triggerSearchBar({bool? value}) {
+    showSearchBar.value = value ?? !showSearchBar.value;
+    if (showSearchBar.value == false) {
+      _fetchData(null);
     }
-    else{
-      triggerSearchBar();
+  }
+
+  void onSearch(String? query, {bool? value}) {
+    if (query != null && query.isNotEmpty) {
+      _fetchData(query);
+    } else {
+      triggerSearchBar(value: value);
     }
   }
 }

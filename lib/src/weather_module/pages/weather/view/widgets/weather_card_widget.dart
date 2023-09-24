@@ -1,14 +1,15 @@
 import 'package:cw_weather/src/core/widgets/text/text_body.dart';
 import 'package:cw_weather/src/core/widgets/text/text_subtitle.dart';
 import 'package:cw_weather/src/core/widgets/text/text_title.dart';
-import 'package:cw_weather/src/weather_module/entities/weather.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/weather.dart';
 import 'package:flutter/material.dart';
 
 class WeatherCardWidget extends StatelessWidget {
   final Weather weather;
   final String name;
 
-  const WeatherCardWidget({super.key, required this.weather, required this.name});
+  const WeatherCardWidget(
+      {super.key, required this.weather, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,11 @@ class WeatherCardWidget extends StatelessWidget {
               ),
             ),
             Image.network(
-                "https://openweathermap.org/img/wn/${weather.icon}@4x.png"),
+              "https://openweathermap.org/img/wn/${weather.icon}@4x.png",
+              errorBuilder: (context, _, __) {
+                return const SizedBox.shrink();
+              },
+            )
           ],
         ),
       ),

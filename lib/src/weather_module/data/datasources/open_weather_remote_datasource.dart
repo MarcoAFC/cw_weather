@@ -1,14 +1,14 @@
 import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/network/http_service.dart';
 import 'package:cw_weather/src/weather_module/data/models/city_model.dart';
-import 'package:cw_weather/src/weather_module/entities/city.dart';
-import 'package:cw_weather/src/weather_module/entities/weather.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/city.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/weather.dart';
 import 'package:cw_weather/src/weather_module/data/models/weather_model.dart';
 
-class OpenWeatherDatasource{
+class OpenWeatherRemoteDatasource{
   final HttpService http;
 
-  OpenWeatherDatasource({required this.http});
+  OpenWeatherRemoteDatasource({required this.http});
   
   Future<(Failure?, Weather?)> getWeather({required double latitude, required double longitude})async{
     try{

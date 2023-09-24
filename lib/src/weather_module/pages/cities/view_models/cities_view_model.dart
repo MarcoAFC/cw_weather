@@ -26,21 +26,18 @@ class CitiesViewModel {
     }
   }
 
-  void triggerSearchBar() {
-    showSearchBar.value = !showSearchBar.value;
-  }
-
-  void submitSearch(String query) {
-    triggerSearchBar();
-    _fetchData(query);
-  }
-
-  void onSearch(String query) {
-    if (query.isNotEmpty) {
-      _fetchData(query);
+  void triggerSearchBar({bool? value}) {
+    showSearchBar.value = value ?? !showSearchBar.value;
+    if (showSearchBar.value == false) {
+      _fetchData(null);
     }
-    else{
-      triggerSearchBar();
+  }
+
+  void onSearch(String? query, {bool? value}) {
+    if (query != null && query.isNotEmpty) {
+      _fetchData(query);
+    } else {
+      triggerSearchBar(value: value);
     }
   }
 }

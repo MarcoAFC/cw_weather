@@ -2,7 +2,7 @@ import 'package:cw_weather/src/core/widgets/text/text_subtitle.dart';
 import 'package:cw_weather/src/core/widgets/text/text_title.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cw_weather/src/weather_module/entities/city.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/city.dart';
 
 class CityCardWidget extends StatelessWidget {
   const CityCardWidget({

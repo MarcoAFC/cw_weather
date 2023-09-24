@@ -1,6 +1,6 @@
 import 'package:cw_weather/src/core/widgets/text/text_body.dart';
 import 'package:cw_weather/src/core/widgets/text/text_subtitle.dart';
-import 'package:cw_weather/src/weather_module/entities/weather.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/weather.dart';
 import 'package:flutter/material.dart';
 
 class ForecastCardWidget extends StatelessWidget {

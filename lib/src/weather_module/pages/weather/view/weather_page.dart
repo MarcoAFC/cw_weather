@@ -1,6 +1,6 @@
 import 'package:cw_weather/src/core/widgets/failure_widget.dart';
 import 'package:cw_weather/src/core/widgets/text/text_title.dart';
-import 'package:cw_weather/src/weather_module/entities/city.dart';
+import 'package:cw_weather/src/weather_module/domain/entities/city.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view/widgets/forecast_carousel_widget.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view/widgets/weather_card_widget.dart';
 import 'package:cw_weather/src/weather_module/pages/weather/view_models/forecast_view_model.dart';

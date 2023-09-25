@@ -4,14 +4,14 @@ import 'package:cw_weather/src/core/local_storage/local_storage_service.dart';
 import 'package:hive/hive.dart';
 
 class HiveService implements LocalStorageService {
-  late Box _box;
+  late final Box _box;
   final Completer initialized = Completer();
-  HiveService() {
-    init();
+  HiveService({Box? box}) {
+    init(box: box);
   }
 
-  Future<void> init() async {
-    await _openBox();
+  Future<void> init({Box? box}) async {
+    await _openBox(box: box);
     if (_box.isEmpty) {
       for (var element in initialData) {
         await write(key: element.key, value: element.value);
@@ -38,8 +38,12 @@ class HiveService implements LocalStorageService {
     }
   }
 
-  Future<void> _openBox() async {
-    if (!Hive.isBoxOpen('storage')) {
+  Future<void> _openBox({Box? box}) async {
+    if(box != null){
+      //this is used to allow properly mocking box in tests while allowing easier access to non-default boxes
+      _box = box;
+    }
+    else if (!Hive.isBoxOpen('storage')) {
       _box = await Hive.openBox('storage');
     }
   }

@@ -36,12 +36,13 @@ dependencies:
   get_it: ^7.6.4
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  mocktail: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.0
+  http_mock_adapter: ^0.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

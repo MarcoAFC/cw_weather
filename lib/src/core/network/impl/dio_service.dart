@@ -6,9 +6,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioService implements HttpService {
-  final Dio _dio = Dio(BaseOptions(
-      baseUrl: dotenv.env['BASE_URL']!,
-      queryParameters: {'appid': dotenv.env['API_KEY']}));
+  final Dio _dio;
+
+  DioService({Dio? dio})
+      : _dio = dio ??
+            Dio(BaseOptions(
+                baseUrl: dotenv.env['BASE_URL']!,
+                queryParameters: {'appid': dotenv.env['API_KEY']}));
 
   @override
   Future<(Failure?, BaseResponse?)> get(
@@ -22,7 +26,7 @@ class DioService implements HttpService {
     } on DioException catch (e) {
       return (
         HttpFailure(
-            message: e.message ??
+            message: e.response?.statusMessage ??
                 "We are currently unable to reach our servers, please check your connectivity and try again.",
             statusCode: e.response?.statusCode),
         null

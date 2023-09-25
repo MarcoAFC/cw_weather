@@ -55,14 +55,14 @@ void main() {
       when(
         () => http.get(
             path: '/data/2.5/forecast',
-            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric', 'cnt': 5}),
+            queryParameters: {'lat': 1, 'lon': 2, 'units': 'metric', 'cnt': 35}),
       ).thenAnswer(
           (invocation) async => (null, BaseResponse(data: forecastJson)));
 
       var data = await datasource.getForecast(latitude: 1, longitude: 2);
       expect(data.$1, null);
       expect(data.$2, isA<List<WeatherModel>>());
-      expect(data.$2!.length, 4);
+      expect(data.$2!.length, 1);
     });
 
     test('Get forecast returns failure for invalid data', () async {

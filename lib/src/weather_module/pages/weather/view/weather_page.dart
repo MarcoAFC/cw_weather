@@ -29,9 +29,9 @@ class _WeatherPageState extends State<WeatherPage> {
   }
   @override
   void dispose() {
-    widget.weatherViewModel.dispose();
-    widget.weatherViewModel.dispose();
     super.dispose();
+    widget.weatherViewModel.dispose();
+    widget.forecastViewModel.dispose();
   }
 
   @override

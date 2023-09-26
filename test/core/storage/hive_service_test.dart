@@ -49,13 +49,13 @@ void main() {
 
     test('Check if initial values were added', () async {
       var response = await service.getAll();
-      expect(response.length, 4);
-      expect(response, list);
+      expect(response.$2!.length, 4);
+      expect(response.$2, list);
     });
 
     test('Check if readkey returns valid data', () async {
       var response = await service.readKey(key: 'Silverstone,GB');
-      expect(response, {
+      expect(response.$2, {
         'Silverstone,GB': {
           'name': 'Silverstone',
           'lat': 52.0877287,

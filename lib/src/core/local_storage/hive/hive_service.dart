@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cw_weather/src/core/exceptions/failure.dart';
 import 'package:cw_weather/src/core/local_storage/local_storage_service.dart';
 import 'package:hive/hive.dart';
 
@@ -11,48 +12,69 @@ class HiveService implements LocalStorageService {
   }
 
   Future<void> init({Box? box}) async {
-    await _openBox(box: box);
-    if (_box.isEmpty) {
-      for (var element in initialData) {
-        await write(key: element.key, value: element.value);
+    try {
+      await _openBox(box: box);
+      if (_box.isEmpty) {
+        for (var element in initialData) {
+          await write(key: element.key, value: element.value);
+        }
       }
-    }
-    initialized.complete();
-  }
-
-  @override
-  Future<Map<dynamic, dynamic>?> readKey({required String key}) async {
-    return await _box.get(key);
-  }
-
-  @override
-  Future<void> write(
-      {required String key, required Map<String, dynamic> value}) async {
-    var currentValue = await readKey(key: key);
-    if (currentValue != null) {
-      // if data already exists, update it instead of overwriting
-      currentValue.addAll(value);
-      await _box.put(key, currentValue);
-    } else {
-      await _box.put(key, value);
-    }
-  }
-
-  Future<void> _openBox({Box? box}) async {
-    if(box != null){
-      //this is used to allow properly mocking box in tests while allowing easier access to non-default boxes
-      _box = box;
-    }
-    else if (!Hive.isBoxOpen('storage')) {
-      _box = await Hive.openBox('storage');
+      initialized.complete();
+    } catch (e) {
+      rethrow;
     }
   }
 
   @override
-  Future<List<dynamic>> getAll() async {
-    await initialized.future;
-    final result = _box.values.toList();
-    return result;
+  Future<(Failure?, Map<dynamic, dynamic>?)> readKey({required String key}) async {
+    try {
+      return (null, await _box.get(key) as Map);
+    } catch (e) {
+      return (Failure.generic, null);
+    }
+  }
+
+  @override
+  Future<(Failure?, void)> write(
+      {required String key, required Map<dynamic, dynamic> value}) async {
+    try {
+      var currentValue = await readKey(key: key);
+      if (currentValue.$2 != null) {
+        // if data already exists, update it instead of overwriting
+        currentValue.$2!.addAll(value);
+        await _box.put(key, currentValue);
+      } else {
+        await _box.put(key, value);
+      }
+      return (null, null);
+    } catch (e) {
+      return (Failure.generic, null);
+    }
+  }
+
+  Future<(Failure?, void)> _openBox({Box? box}) async {
+    try {
+      if (box != null) {
+        //this is used to allow properly mocking box in tests while allowing easier access to non-default boxes
+        _box = box;
+      } else if (!Hive.isBoxOpen('storage')) {
+        _box = await Hive.openBox('storage');
+      }
+      return (null, null);
+    } catch (e) {
+      return (Failure.generic, null);
+    }
+  }
+
+  @override
+  Future<(Failure?, List<dynamic>?)> getAll() async {
+    try {
+      await initialized.future;
+      final result = _box.values.toList();
+      return (null, result);
+    } catch (e) {
+      return (Failure.generic, null);
+    }
   }
 
   var initialData = [

@@ -21,7 +21,7 @@ void main() {
 
     test('Get current weather returns a valid model for valid data', () async {
       when(() => storage.readKey(key: 'key'))
-          .thenAnswer((invocation) async => cityJson[0]);
+          .thenAnswer((invocation) async => (null, cityJson[0]));
 
       var data = await datasource.getWeather(cityId: 'key');
       expect(data.$1, null);
@@ -34,7 +34,7 @@ void main() {
     });
     test('Get current weather returns failure for invalid data', () async {
       when(() => storage.readKey(key: 'key'))
-          .thenAnswer((invocation) async => {});
+          .thenAnswer((invocation) async => (const Failure(message: 'message'), null));
 
       var data = await datasource.getWeather(cityId: 'key');
       expect(data.$1, isA<Failure>());
@@ -43,7 +43,7 @@ void main() {
 
     test('Get forecast returns a valid model for valid data', () async {
       when(() => storage.readKey(key: 'key'))
-          .thenAnswer((invocation) async => cityJson[0]);
+          .thenAnswer((invocation) async => (null, cityJson[0]));
 
       var data = await datasource.getForecast(cityId: 'key');
       expect(data.$1, null);
@@ -53,7 +53,7 @@ void main() {
 
     test('Get forecast returns failure for invalid data', () async {
       when(() => storage.readKey(key: 'key'))
-          .thenAnswer((invocation) async => {});
+          .thenAnswer((invocation) async => (const Failure(message: 'message'), null));
 
       var data = await datasource.getForecast(cityId: 'key');
       expect(data.$1, isA<Failure>());
@@ -63,7 +63,7 @@ void main() {
     test('Get coordinatesbyname returns a list of valid models for valid data',
         () async {
       when(() => storage.getAll())
-          .thenAnswer((invocation) async => cityJson);
+          .thenAnswer((invocation) async => (null, cityJson));
 
       var data = await datasource.getAllCities();
       expect(data.$1, null);

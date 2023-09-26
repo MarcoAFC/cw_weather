@@ -38,8 +38,8 @@ class DependencyHandler{
     di.registerLazySingleton<OpenWeatherRepository>(() => OpenWeatherRepositoryImpl(local: di.get(), remote: di.get()));
     di.registerLazySingleton<ConnectivityRepository>(() => ConnectivityRepositoryImpl(service: di.get()));
     di.registerLazySingleton<CitiesViewModel>(() => CitiesViewModel(repository: di.get(), connectivity: di.get()));
-    di.registerLazySingleton<WeatherViewModel>(() => WeatherViewModel(repository: di.get(), connectivity: di.get()));
-    di.registerLazySingleton<ForecastViewModel>(() => ForecastViewModel(repository: di.get(), connectivity: di.get()));
+    di.registerFactory<WeatherViewModel>(() => WeatherViewModel(repository: di.get(), connectivity: di.get()));
+    di.registerFactory<ForecastViewModel>(() => ForecastViewModel(repository: di.get(), connectivity: di.get()));
   }
 
   T get<T extends Object>(){

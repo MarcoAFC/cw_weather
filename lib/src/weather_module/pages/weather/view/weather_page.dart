@@ -27,6 +27,12 @@ class _WeatherPageState extends State<WeatherPage> {
     widget.weatherViewModel.fetchData(city);
     widget.forecastViewModel.fetchData(city);
   }
+  @override
+  void dispose() {
+    widget.weatherViewModel.dispose();
+    widget.weatherViewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

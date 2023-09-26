@@ -27,4 +27,9 @@ class WeatherViewModel {
       errorNotifier.value = data.$1;
     }
   }
+
+  void dispose(){
+    weatherNotifier.dispose();
+    errorNotifier.dispose();
+  }
 }

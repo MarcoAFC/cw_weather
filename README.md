@@ -4,7 +4,7 @@
 
 An app built to allow checking the weather in a few different cities around the world.
 
-Since this project has a limited scope, main operability is only offered for the following cities:
+This app uses a starting set composed of these cities:
 
 - Silverstone, UK
 - São Paulo, Brazil
@@ -12,6 +12,8 @@ Since this project has a limited scope, main operability is only offered for the
 - Monte Carlo, Monaco
 
 Using this app users can easily access current weather data and forecast for the next 5 days, facilitating planning for outdoor scenarios.
+
+Searching for other cities is available when connected to the internet and opening a new city will also save it for easier future access. 
 
 ## First steps
 
@@ -22,14 +24,64 @@ First and foremost an up-to-date Flutter environment, using an SDK higher than 3
 Next, support is given to both Android and iOS platforms, meaning a compatible device running one of those is necessary. Since regular distributions usually follow simpler means,
 this documentation won't go in depth on how to properly set up your system.
 
-And last but not least, this app has a simple two-page structure: your home page will quickly show current weather data for supported regions and clicking any of the cards 
-will redirect you to a more complete screen showcasing detailed info on current weather and what to expect for the next few days.
+Further info on how to install and setup flutter is available [here](https://docs.flutter.dev/get-started/install).
+
+And last but not least, this app has a simple two-page structure: your home page will quickly show available cities, and the search icon allows you to find any available place, and clicking a card will redirect you to a more detailed page containing current weather and forecast for the next 5 days.
 
 Enjoy!
 
+## Environment variables
+
+Environment variables, such as API_KEY and BASE_URL were set using a dotenv file, placed in the root folder of this project, and can be edited as necessary.
+
+Usually this kind of constant, specially the key, should not be made available and would be checked out of version managemente by means of .gitignore. In this case, this set of constants was left available for ease of use of this project app, and in a more definite setting would be placed through use of a proper CI.
+
+## Running
+### App
+To run the app, consider all that was said above, and with a running Android device or emulator, execute in your terminal
+
+```
+flutter pub get
+flutter run
+```
+
+
+### Tests
+Again, considering a valid structure is available, execute in your terminal:
+
+```
+flutter pub get
+flutter test
+```
+
 ## Technical details
+### Architecture
+This app was built using an approach similar to the [Very Good Architecture](https://verygood.ventures/blog/very-good-flutter-architecture), while using ViewModels instead of Blocs in order to control operations in the UI. 
 
-This app was built using the MVVM approach to architecture, separating UI implementations from business logic and data-related code.
+To sum up, the app is built in 3 layers:
 
-On Flutter specific contexts, GetIt was used for dependency injection, Dio for HTTP requests and native ValueNotifier was used for state management.
+- Data
 
+    Contains logic related to getting data (from API or local storage) and processing it to pass along to other pieces of the app.
+
+- Domain
+
+    Serves as a bridge between layers, containing pure entities and repository interfaces, makes it so that both the data and view layers don't depend on each other.
+
+- View
+
+    Contains a ViewModel approach set of controllers and pages. UI is built on pages with as little logic as possible, depending on streams that are controlled by the viewmodel and that
+    are fed by data coming from other sections of the app.
+
+Comparing this approach to Clean Dart, the main diference would be the removal of the infrastructure layer and usecases in domain.
+
+Considering the scope and size of this project, opting for a simpler architecture in this case allow for more agility without having to sacrifice much in terms of organization.
+
+### Other elements
+- Dependecy injection was built using GetIt.
+
+- State Management was made using ValueNotifier as streams.
+
+- Mocktail was used for mocking dependencies in unit tests.
+
+- Flutter_dotenv was used for picking up environment variables.
